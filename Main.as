@@ -17,7 +17,9 @@
 		private var sprite:Sprite = new Sprite();
 		private var spawnTimer:Timer = new Timer(750,0);
 		private var restartTimer:Timer = new Timer(500,0);
+		private var buddyTimer:Timer = new Timer(2000,0);
 		public var enemies:Array = [];
+		public var buddies:Array = [];
 		private var channels:Array = [];
 		private var score:Number = 0;
 		
@@ -52,6 +54,7 @@
 			sprite.addEventListener(TouchEvent.TOUCH_END, touchEnd);
 			spawnTimer.addEventListener(TimerEvent.TIMER, onSpawnTimer);
 			restartTimer.addEventListener(TimerEvent.TIMER, reset);
+			buddyTimer.addEventListener(TimerEvent.TIMER, addBuddy);
 			addEventListener(Event.ENTER_FRAME, loop);
 		}
 		
@@ -101,6 +104,7 @@
 			sprite.rotation = 45;
 			//start de timer voor de enemies te spawnen
 			spawnTimer.start();
+			buddyTimer.start();
 			
 			//maakt een listener om naar de vinger te volgen
 			sprite.addEventListener(TouchEvent.TOUCH_MOVE, touchMove);
@@ -120,6 +124,14 @@
 			//haalt de listener weg als je loslaat
 			sprite.removeEventListener(TouchEvent.TOUCH_MOVE, touchMove);
 		}
+		
+		function addBuddy(te:TimerEvent):void
+		{
+			trace('sdf');
+			buddies.push(new Buddy());
+			addChild(buddies[buddies.length-1]);
+			buddies[buddies.length-1].addEventListener(Buddy.BUDDY_OUT_OF_BOUNDS, deleteBuddy);
+		}
 
 		function onSpawnTimer(te:TimerEvent):void
 		{
@@ -131,6 +143,11 @@
 			enemies[enemies.length -1].addEventListener(Enemy.ENEMY_OUT_OF_BOUNDS, deleteEnemy);
 		}
 		
+		function deleteBuddy(e:Event):void
+		{
+			removeBuddy(e.target as Buddy)
+		}
+		
 		function deleteEnemy(e:Event):void
 		{
 			//called when enemy goes out of screen
@@ -138,6 +155,12 @@
 			//remove enemy from screen
 			removeEnemy(e.target as Enemy)
 			score++;
+		}
+
+		function removeBuddy(buddy:Buddy):void
+		{
+			removeChild(buddy);
+			buddies.splice(buddies.indexOf(buddy),1)
 		}
 		
 		function removeEnemy(enemy:Enemy):void
