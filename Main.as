@@ -80,7 +80,16 @@
 				removeChild(enemies[i]);
 			}
 			enemies.splice(0, enemies.length);
+			
+			for(var j:int = buddies.length-1; j >= 0;j--)
+			{
+				removeChild(buddies[j]);
+			}
+			buddies.splice(0, buddies.length);
+			
 			score = 0;
+			buddyTimer.stop();
+			buddyTimer.reset();
 			spawnTimer.stop();
 			spawnTimer.reset();
 			
@@ -195,6 +204,7 @@
 		private function removeListeners():void
 		{
 			spawnTimer.removeEventListener(TimerEvent.TIMER, onSpawnTimer);
+			buddyTimer.removeEventListener(TimerEvent.TIMER, addBuddy);
 			sprite.removeEventListener(TouchEvent.TOUCH_BEGIN, touchBegin);
 			sprite.removeEventListener(TouchEvent.TOUCH_END, touchEnd);
 			removeEventListener(Event.ENTER_FRAME, loop);
