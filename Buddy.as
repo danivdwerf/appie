@@ -29,6 +29,7 @@
 		public function loop(e:Event):void
 		{
 			this.y += speed;
+			this.rotation -= 10;
 			
 			if(this.y > stage.stageHeight)
 			{	

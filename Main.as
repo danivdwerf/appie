@@ -9,6 +9,7 @@
 	import flash.utils.Timer;
 	import flash.display.MovieClip;
 	import flash.events.Event;
+	import Enemy;
 	import SoundButton;
 	import StopButton;
 	
@@ -81,7 +82,7 @@
 			}
 			enemies.splice(0, enemies.length);
 			
-			for(var j:int = buddies.length-1; j >= 0;j--)
+			for(var j:int = buddies.length-1; j >= 0; j--)
 			{
 				removeChild(buddies[j]);
 			}
@@ -136,10 +137,10 @@
 		
 		function addBuddy(te:TimerEvent):void
 		{
-			trace('sdf');
 			buddies.push(new Buddy());
 			addChild(buddies[buddies.length-1]);
 			buddies[buddies.length-1].addEventListener(Buddy.BUDDY_OUT_OF_BOUNDS, deleteBuddy);
+			
 		}
 
 		function onSpawnTimer(te:TimerEvent):void
@@ -193,6 +194,15 @@
 				}
 			}
 			
+			for(var j:int=0; j<buddies.length; j++)
+			{
+				if(sprite.hitTestObject(buddies[j]))
+				{
+					removeBuddy(buddies[j]);
+					score +=2;
+				}
+			}
+			
 			if (toRemove)
 			{
 				removeChild(sprite);
@@ -211,7 +221,6 @@
 		}
 	}
 }
-
 
 
 
