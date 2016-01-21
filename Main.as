@@ -15,13 +15,13 @@
 	
 	public class Main extends MovieClip
 	{
-		private var sprite:Sprite = new Sprite();
 		private var spawnTimer:Timer = new Timer(750,0);
 		private var restartTimer:Timer = new Timer(500,0);
 		private var buddyTimer:Timer = new Timer(2000,0);
 		public var enemies:Array = [];
 		public var buddies:Array = [];
 		private var channels:Array = [];
+		private var sprite:Array = [];
 		private var score:Number = 0;
 		
 		public function Main() 
@@ -61,16 +61,8 @@
 		
 		function drawSprite():void
 		{
-			sprite.graphics.beginFill(0x574569);
-			sprite.x = 240;
-			sprite.y = 500;
-			sprite.graphics.moveTo(-50,-50);
-			sprite.graphics.lineTo(50,-50);
-			sprite.graphics.lineTo(50,50);
-			sprite.graphics.lineTo(-50,50);
-			sprite.graphics.lineTo(-50,-50);
-			sprite.graphics.endFill();
-			addChild(sprite);
+			addChild(new Sprite);
+			sprite.push(sprite[sprite.length]);
 		}
 		
 		function reset(te:TimerEvent):void
