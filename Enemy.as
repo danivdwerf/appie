@@ -5,7 +5,7 @@
 	
 	public class Enemy extends MovieClip
 	{
-		public var speed:Number = 15;
+		public var speed:Number = 0;
 		public static const ENEMY_OUT_OF_BOUNDS:String = "enemy out of bounds";
 		
 		public function Enemy() 

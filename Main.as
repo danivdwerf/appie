@@ -9,19 +9,20 @@
 	import flash.utils.Timer;
 	import flash.display.MovieClip;
 	import flash.events.Event;
-	import Enemy;
 	import SoundButton;
 	import StopButton;
 	
 	public class Main extends MovieClip
 	{
+		private var sprite:Sprite = new Sprite();
 		private var spawnTimer:Timer = new Timer(750,0);
 		private var restartTimer:Timer = new Timer(500,0);
 		private var buddyTimer:Timer = new Timer(2000,0);
+		private var speedUp:Timer = new Timer(30000,1);
+		private var drugs:int = 15;
 		public var enemies:Array = [];
 		public var buddies:Array = [];
 		private var channels:Array = [];
-		private var sprite:Array = [];
 		private var score:Number = 0;
 		
 		public function Main() 
@@ -56,13 +57,22 @@
 			spawnTimer.addEventListener(TimerEvent.TIMER, onSpawnTimer);
 			restartTimer.addEventListener(TimerEvent.TIMER, reset);
 			buddyTimer.addEventListener(TimerEvent.TIMER, addBuddy);
+			speedUp.addEventListener(TimerEvent.TIMER, iUseSpeed);
 			addEventListener(Event.ENTER_FRAME, loop);
 		}
 		
 		function drawSprite():void
 		{
-			addChild(new Sprite);
-			sprite.push(sprite[sprite.length]);
+			sprite.graphics.beginFill(0x574569);
+			sprite.x = 240;
+			sprite.y = 500;
+			sprite.graphics.moveTo(-50,-50);
+			sprite.graphics.lineTo(50,-50);
+			sprite.graphics.lineTo(50,50);
+			sprite.graphics.lineTo(-50,50);
+			sprite.graphics.lineTo(-50,-50);
+			sprite.graphics.endFill();
+			addChild(sprite);
 		}
 		
 		function reset(te:TimerEvent):void
@@ -107,6 +117,7 @@
 			//start de timer voor de enemies te spawnen
 			spawnTimer.start();
 			buddyTimer.start();
+			speedUp.start();
 			
 			//maakt een listener om naar de vinger te volgen
 			sprite.addEventListener(TouchEvent.TOUCH_MOVE, touchMove);
@@ -141,8 +152,17 @@
 			enemies.push(new Enemy());
 			//voegt de enemies toe aan stage
 			addChild(enemies[enemies.length -1]);
+			enemies[enemies.length -1].speed = drugs;
 			//hangt een listener aan de enemies om te checken of hij buiten het scherm gaat
 			enemies[enemies.length -1].addEventListener(Enemy.ENEMY_OUT_OF_BOUNDS, deleteEnemy);
+		}
+		
+		function iUseSpeed(te:TimerEvent):void
+		{
+			for(var i:int=0; i<enemies.length; i++)
+			{
+				drugs = 25;
+			}
 		}
 		
 		function deleteBuddy(e:Event):void
