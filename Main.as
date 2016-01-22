@@ -18,17 +18,20 @@
 		private var spawnTimer:Timer = new Timer(750,0);
 		private var restartTimer:Timer = new Timer(500,0);
 		private var buddyTimer:Timer = new Timer(2000,0);
-		private var speedUp:Timer = new Timer(30000,1);
+		private var speedUp:Timer = new Timer(50000,1);
 		private var drugs:int = 15;
+		private var goodBad:Instruction= new Instruction();
 		public var enemies:Array = [];
 		public var buddies:Array = [];
 		private var channels:Array = [];
 		private var score:Number = 0;
+		private var onStage:Boolean=false;
 		
 		public function Main() 
 		{
 			Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
 			drawSprite();
+			showGoodBad();
 			addListeners();
 			
 			var sound:SoundButton = new SoundButton(0xEEEEFF, " Play Music", channels);
@@ -48,6 +51,18 @@
 			stop.x = 450;
 			stop.y = 30;
 			addChild(stop);
+		}
+		
+		private function showGoodBad()
+		{
+			addChild(goodBad);
+			goodBad.scaleX=0.5;
+			goodBad.scaleY=0.5;
+			goodBad.alpha=0.75;
+			goodBad.y=250;
+			goodBad.x=240;
+			onStage = true;
+			
 		}
 		
 		private function addListeners()
@@ -110,6 +125,7 @@
 			restartTimer.reset();
 			restartTimer.removeEventListener(TimerEvent.TIMER, reset);
 			addListeners();
+			showGoodBad();
 		}
 		
 		function touchBegin(te:TouchEvent):void
@@ -120,6 +136,12 @@
 			spawnTimer.start();
 			buddyTimer.start();
 			speedUp.start();
+			
+			if(onStage)
+			{
+				onStage = false;
+				removeChild(goodBad);
+			}
 			
 			//maakt een listener om naar de vinger te volgen
 			sprite.addEventListener(TouchEvent.TOUCH_MOVE, touchMove);
@@ -163,7 +185,7 @@
 		{
 			for(var i:int=0; i<enemies.length; i++)
 			{
-				drugs = 25;
+				drugs = 30;
 			}
 		}
 		
