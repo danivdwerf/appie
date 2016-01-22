@@ -43,7 +43,7 @@
 			error.x = 150;
 			error.y = 10;
 			addChild(error);
-			
+
 			var stop:StopButton = new StopButton(channels);
 			stop.x = 450;
 			stop.y = 30;
@@ -95,6 +95,8 @@
 			buddyTimer.reset();
 			spawnTimer.stop();
 			spawnTimer.reset();
+			speedUp.stop();
+			speedUp.reset();
 			
 			
 			//Player /  sprite resetten
